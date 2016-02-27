@@ -1,9 +1,10 @@
-local composer = require( "composer" )
+ local composer = require( "composer" )
 local scene = composer.newScene()
 local physics = require ("physics")
 
-physics.setGravity(-2,-1)
 physics.start()
+physics.setGravity(0,0)
+
 -- -----------------------------------------------------------------------------------------------------------------
 -- All code outside of the listener functions will only be executed ONCE unless "composer.removeScene()" is called.
 -- -----------------------------------------------------------------------------------------------------------------
@@ -17,7 +18,7 @@ physics.start()
 function scene:create( event )
     local sceneGroup = self.view
 
-    local background, player, tile, movesDisp
+    local background, player, lineSeperator, movesDisp, boxesDisp
     local moves=0
     local width, height
     width = display.actualContentWidth
@@ -33,13 +34,17 @@ function scene:create( event )
     background:setFillColor(58/255,160/255,75/255)
 
     player = display.newImage(sceneGroup,"ball.png", 10,10 )
-    player:scale(3,3)
-    player.x = player.width +3
-    player.y = player.height+12
+    player.x = player.width
+    player.y = player.height
     player.name = "player"
-    physics.addBody(player,"static")
+    physics.addBody(player,"dynamic")
 
-    movesDisp = display.newText(sceneGroup, "Moves: ".. moves, 50,10,native.systemFont,22)
+    lineSeperator = display.newLine( sceneGroup, width*0.75,0, width*0.75, height)
+    movesDisp = display.newText(sceneGroup, "Moves: ".. moves, width*.85,10,native.systemFont,22)
+    movesDisp:setFillColor(0.1,0.1,0.1)
+    boxesDisp = display.newText(sceneGroup, "Boxes: ".. moves, width*.85,40,native.systemFont,22)
+    boxesDisp:setFillColor(186/255,138/255,10/255)
+
 end
 
 
